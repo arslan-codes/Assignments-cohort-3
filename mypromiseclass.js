@@ -1,9 +1,9 @@
 class SimplePromise {
   constructor(executor) {
-    // Initial state is "pending", and value is initially null
+    // setting the  Initial state as "pending", and value is initially null
     this.state = "pending";
     this.value = null;
-    // Handlers array will store callbacks to be executed when the promise resolves or rejects
+    // Handlers array to  store callbacks to be executed on resolve and reject
     this.handlers = [];
 
     // The resolve function changes the state to "fulfilled" and assigns the resolved value
@@ -34,7 +34,6 @@ class SimplePromise {
   then(onFulfilled, onRejected) {
     // Return a new SimplePromise for chaining
     return new SimplePromise((resolve, reject) => {
-      // This function handles both fulfillment and rejection
       const handleCallback = () => {
         try {
           // If the promise was fulfilled, call onFulfilled with the value
@@ -48,19 +47,18 @@ class SimplePromise {
             reject(onRejected ? onRejected(this.value) : this.value);
           }
         } catch (error) {
-          // If there's an error in the callback, reject the promise with the error
+          // If there's an error in the CAAllback, reject the promise with the error
           reject(error);
         }
       };
-
-      // If the promise is still pending, store the callbacks to be executed later
+      // If the promise is still pending, CAAllback To be executed LAter
       if (this.state === "pending") {
         this.handlers.push({
           onFulfilled: handleCallback,
           onRejected: handleCallback,
         });
       }
-      // If the promise has already been resolved or rejected, execute the callback asynchronously
+      // If the promise has already been resolved or rejected, execute the CAAllback asynchronously
       else {
         setTimeout(handleCallback, 0);
       }
@@ -71,8 +69,8 @@ class SimplePromise {
   }
 }
 
-//assignment code
-// promsified set timeout
+// I have also implemented the assignment code
+//1. promsified set timeout
 function promiseTimeout(ms) {
   return new SimplePromise((resolve) => {
     setTimeout(() => {
@@ -82,8 +80,9 @@ function promiseTimeout(ms) {
 }
 
 promiseTimeout(1000).then((message) => {
-  console.log(message); // Logs "Waited for 1000 milliseconds" after 1 second
+  console.log(message);
 });
+
 // 2. Promisified fetch()
 
 function promiseFetch(url) {
@@ -107,13 +106,14 @@ promiseFetch("https://jsonplaceholder.typicode.com/todos/1")
   .catch((error) => {
     console.error("Fetch error:", error);
   });
+
 // 3. Promisified fs.readFile()
 
 const fs = require("fs");
 
 function promiseReadFile(filePath) {
   return new SimplePromise((resolve, reject) => {
-    fs.readFile("./file.text", "utf8", (err, data) => {
+    fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         reject(err);
       } else {
@@ -125,7 +125,7 @@ function promiseReadFile(filePath) {
 
 promiseReadFile("./file.text")
   .then((data) => {
-    console.log("File content:", data); // Logs the content of example.txt
+    console.log("File content:", data);
   })
   .catch((error) => {
     console.error("Read file error:", error);
