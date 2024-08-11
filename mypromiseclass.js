@@ -3,8 +3,7 @@ class SimplePromise {
     // setting the  Initial state as "pending", and value is initially null
     this.state = "pending";
     this.value = null;
-    // Handlers array to  store callbacks to be executed on resolve and reject
-    this.handlers = [];
+    this.handlers = []; //for callback handling
 
     // The resolve function changes the state to "fulfilled" and assigns the resolved value
     const resolve = (value) => {
@@ -26,7 +25,7 @@ class SimplePromise {
       }
     };
 
-    // The executor is the function passed in when a new SimplePromise is created
+    // The executor is the function passed in when a new Promise is created (simplePromise)
     executor(resolve, reject);
   }
 
